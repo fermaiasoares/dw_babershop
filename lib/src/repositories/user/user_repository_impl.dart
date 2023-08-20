@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dw_babershop/src/core/exceptions/auth_exception.dart';
+import 'package:dw_babershop/src/core/exceptions/repository_exception.dart';
 import 'package:dw_babershop/src/core/fp/either.dart';
 import 'package:dw_babershop/src/core/restClient/rest_client.dart';
+import 'package:dw_babershop/src/models/user_model.dart';
 import 'package:dw_babershop/src/repositories/user/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
@@ -20,8 +22,10 @@ class UserRepositoryImpl implements UserRepository {
     String password,
   ) async {
     try {
-      final Response(:data) =
-          await restClient.unAuth.post('/auth', data: {email, password});
+      final Response(:data) = await restClient.unAuth.post('/auth', data: {
+        'email': email,
+        'password': password,
+      });
       return Success(data['access_token']);
     } on DioException catch (e, s) {
       if (e.response != null) {
@@ -33,6 +37,24 @@ class UserRepositoryImpl implements UserRepository {
       }
       log('Erro ou realizar login', error: e, stackTrace: s);
       return Failure(AuthError(message: 'Erro ou realizar login'));
+    }
+  }
+
+  @override
+  Future<Either<RepositoryException, UserModel>> me() async {
+    try {
+      final Response(:data) = await restClient.auth.get('/me');
+      return Success(UserModel.fromMap(data));
+    } on DioException catch (e, s) {
+      log('Erro ao buscar usuário logado', error: e, stackTrace: s);
+      return Failure(
+        RepositoryException(message: 'Erro ao buscar usuário logado'),
+      );
+    } on ArgumentError catch (e, s) {
+      log('Invalid JSON', error: e, stackTrace: s);
+      return Failure(
+        RepositoryException(message: e.message),
+      );
     }
   }
 }
