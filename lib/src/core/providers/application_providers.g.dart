@@ -35,5 +35,65 @@ final userRepositoryProvider = Provider<UserRepository>.internal(
 );
 
 typedef UserRepositoryRef = ProviderRef<UserRepository>;
+String _$userLoginServiceHash() => r'62431221aac8e45888e74928ecf0b5836e72b999';
+
+/// See also [userLoginService].
+@ProviderFor(userLoginService)
+final userLoginServiceProvider = Provider<UserLoginService>.internal(
+  userLoginService,
+  name: r'userLoginServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$userLoginServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef UserLoginServiceRef = ProviderRef<UserLoginService>;
+String _$getMeHash() => r'835de91f459d1216fe7813de1ce4ffa8c28975d4';
+
+/// See also [getMe].
+@ProviderFor(getMe)
+final getMeProvider = FutureProvider<UserModel>.internal(
+  getMe,
+  name: r'getMeProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getMeHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetMeRef = FutureProviderRef<UserModel>;
+String _$barbershopRepositoryHash() =>
+    r'a64ad01ae6b70f8192c02a09abc33ea968315cb9';
+
+/// See also [barbershopRepository].
+@ProviderFor(barbershopRepository)
+final barbershopRepositoryProvider = Provider<BarbershopRepository>.internal(
+  barbershopRepository,
+  name: r'barbershopRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$barbershopRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef BarbershopRepositoryRef = ProviderRef<BarbershopRepository>;
+String _$getMyBarbershopHash() => r'9b144de99fecc5f82671f523e5badb91c7899080';
+
+/// See also [getMyBarbershop].
+@ProviderFor(getMyBarbershop)
+final getMyBarbershopProvider = FutureProvider<BarberShopModel>.internal(
+  getMyBarbershop,
+  name: r'getMyBarbershopProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getMyBarbershopHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetMyBarbershopRef = FutureProviderRef<BarberShopModel>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

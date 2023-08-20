@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:dw_babershop/src/core/restClient/interceptors/auth_interceptor.dart';
 
 final class RestClient extends DioForNative {
   RestClient()
@@ -14,7 +15,8 @@ final class RestClient extends DioForNative {
       LogInterceptor(
         requestBody: true,
         responseBody: true,
-      )
+      ),
+      AuthInterceptor()
     ]);
   }
 
