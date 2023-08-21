@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 
 import 'package:dw_babershop/src/core/exceptions/repository_exception.dart';
 import 'package:dw_babershop/src/core/fp/either.dart';
+import 'package:dw_babershop/src/core/fp/nil.dart';
 import 'package:dw_babershop/src/core/restClient/rest_client.dart';
 import 'package:dw_babershop/src/models/barbershop_model.dart';
 import 'package:dw_babershop/src/models/user_model.dart';
@@ -46,6 +47,32 @@ class BarbershopRepositoryImpl implements BarbershopRepository {
       log('Invalid JSON', error: e, stackTrace: s);
       return Failure(
         RepositoryException(message: 'Invalid JSON'),
+      );
+    }
+  }
+
+  @override
+  Future<Either<RepositoryException, Nil>> save(
+      ({
+        String email,
+        String name,
+        List<String> openingDays,
+        List<int> openingHours
+      }) data) async {
+    try {
+      await restClient.auth.post('/barbershop', data: {
+        'user_id': '#userAuthRef',
+        'name': data.name,
+        'email': data.email,
+        'opening_days': data.openingDays,
+        'opening_hours': data.openingHours,
+      });
+
+      return Success(nil);
+    } on DioException catch (e, s) {
+      log('Erro ao registar barbearia', error: e, stackTrace: s);
+      return Failure(
+        RepositoryException(message: 'Erro ao registar barbearia'),
       );
     }
   }
